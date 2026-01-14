@@ -5,7 +5,7 @@
 
 #include "lily58.dtsi"
 
-/* Keyscan pins for left half */
+/* Keyscan for left half */
 &kscan0 {
     col-gpios = <
         &pro_micro 19 GPIO_ACTIVE_HIGH,
@@ -22,18 +22,23 @@
     status = "okay";
 };
 
-/* PWM backlight node (left half drives the LEDs) */
-zmk_backlight: backlight {
+/* Backlight PWM controller enable */
+&pwm0 {
+    status = "okay";
+};
+
+/* Backlight device definition using pwm0 */
+backlight: backlight {
     compatible = "zmk,backlight-pwm";
-    label = "LED_BACKLIGHT";
-    pwms = <&pro_micro 3 5000>; /* Adjust pin & PWM freq if needed */
+    pwms = <&pwm0 0 PWM_MSEC(20) PWM_POLARITY_INVERTED>;
     brightness-levels = <10>;
     status = "okay";
 };
 
-/* Chosen properties */
+/* Chosen nodes */
 chosen {
     zmk,battery = &vbatt;
+    zmk,backlight = &backlight;
 };
 
 /* Battery node */
