@@ -20,12 +20,23 @@
 &left_encoder {
     status = "okay";
 };
-/ {
+
+ / {
     chosen {
-      zmk,battery = &vbatt;
+        zmk,battery = &vbatt;
+        zmk,backlight = &backlight;
     };
 
     vbatt: vbatt {
         compatible = "zmk,battery-nrf-vddh";
     };
+};
+
+&pwm0 {
+    status = "okay";
+};
+
+backlight: backlight {
+    compatible = "zmk,backlight-pwm";
+    pwms = <&pwm0 0 PWM_MSEC(20) PWM_POLARITY_INVERTED>;
 };
