@@ -22,22 +22,24 @@
     status = "okay";
 };
 
-/* Enable PWM */
+/* Enable PWM controller */
 &pwm0 {
     status = "okay";
 };
 
-/* Backlight (PWM, inverted – Lily58 Pro Rev2 uses transistor) */
+/* PWM backlight (Lily58 Pro Rev2 uses inverted PWM via transistor) */
 backlight: backlight {
     compatible = "zmk,backlight-pwm";
     pwms = <&pwm0 0 PWM_MSEC(20) PWM_POLARITY_INVERTED>;
     status = "okay";
 };
 
-/* Chosen nodes */
-chosen {
-    zmk,battery = &vbatt;
-    zmk,backlight = &backlight;
+/* Root node */
+ / {
+    chosen {
+        zmk,battery = &vbatt;
+        zmk,backlight = &backlight;
+    };
 };
 
 /* Battery */
