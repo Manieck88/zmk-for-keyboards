@@ -1,34 +1,38 @@
 /*
- * Copyright (c) 2020 Pete Johanson
- *
+ * Lily58 Right Half Overlay
  * SPDX-License-Identifier: MIT
  */
 
 #include "lily58.dtsi"
 
+/* Mirror keymap for right half */
 &default_transform {
     col-offset = <6>;
 };
 
+/* Keyscan pins for right half */
 &kscan0 {
-    col-gpios
-        = <&pro_micro 10 GPIO_ACTIVE_HIGH>
-        , <&pro_micro 16 GPIO_ACTIVE_HIGH>
-        , <&pro_micro 14 GPIO_ACTIVE_HIGH>
-        , <&pro_micro 15 GPIO_ACTIVE_HIGH>
-        , <&pro_micro 18 GPIO_ACTIVE_HIGH>
-        , <&pro_micro 19 GPIO_ACTIVE_HIGH>
-        ;
+    col-gpios = <
+        &pro_micro 10 GPIO_ACTIVE_HIGH,
+        &pro_micro 16 GPIO_ACTIVE_HIGH,
+        &pro_micro 14 GPIO_ACTIVE_HIGH,
+        &pro_micro 15 GPIO_ACTIVE_HIGH,
+        &pro_micro 18 GPIO_ACTIVE_HIGH,
+        &pro_micro 19 GPIO_ACTIVE_HIGH
+    >;
 };
+
+/* Right encoder */
 &right_encoder {
     status = "okay";
 };
-/ {
-    chosen {
-      zmk,battery = &vbatt;
-    };
 
-    vbatt: vbatt {
-        compatible = "zmk,battery-nrf-vddh";
-    };
+/* Chosen properties */
+chosen {
+    zmk,battery = &vbatt;
+};
+
+/* Battery node (optional if right half needs it) */
+vbatt: vbatt {
+    compatible = "zmk,battery-nrf-vddh";
 };
