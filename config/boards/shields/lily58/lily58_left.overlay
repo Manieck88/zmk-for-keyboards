@@ -1,18 +1,18 @@
 /*
- * Lily58 Left Half Overlay
+ * Lily58 Pro Rev2 – LEFT
  * SPDX-License-Identifier: MIT
  */
 
 #include "lily58.dtsi"
 
-/* Keyscan for left half */
+/* Keyscan */
 &kscan0 {
     col-gpios = <
-        &pro_micro 19 GPIO_ACTIVE_HIGH,
-        &pro_micro 18 GPIO_ACTIVE_HIGH,
-        &pro_micro 15 GPIO_ACTIVE_HIGH,
-        &pro_micro 14 GPIO_ACTIVE_HIGH,
-        &pro_micro 16 GPIO_ACTIVE_HIGH,
+        &pro_micro 19 GPIO_ACTIVE_HIGH
+        &pro_micro 18 GPIO_ACTIVE_HIGH
+        &pro_micro 15 GPIO_ACTIVE_HIGH
+        &pro_micro 14 GPIO_ACTIVE_HIGH
+        &pro_micro 16 GPIO_ACTIVE_HIGH
         &pro_micro 10 GPIO_ACTIVE_HIGH
     >;
 };
@@ -22,16 +22,15 @@
     status = "okay";
 };
 
-/* Backlight PWM controller enable */
+/* Enable PWM */
 &pwm0 {
     status = "okay";
 };
 
-/* Backlight device definition using pwm0 */
+/* Backlight (PWM, inverted – Lily58 Pro Rev2 uses transistor) */
 backlight: backlight {
     compatible = "zmk,backlight-pwm";
     pwms = <&pwm0 0 PWM_MSEC(20) PWM_POLARITY_INVERTED>;
-    brightness-levels = <10>;
     status = "okay";
 };
 
@@ -41,7 +40,7 @@ chosen {
     zmk,backlight = &backlight;
 };
 
-/* Battery node */
+/* Battery */
 vbatt: vbatt {
     compatible = "zmk,battery-nrf-vddh";
 };
