@@ -1,42 +1,42 @@
 /*
- * Copyright (c) 2020 Pete Johanson
- *
+ * Lily58 Left Half Overlay
  * SPDX-License-Identifier: MIT
  */
 
 #include "lily58.dtsi"
 
+/* Keyscan pins for left half */
 &kscan0 {
-    col-gpios
-        = <&pro_micro 19 GPIO_ACTIVE_HIGH>
-        , <&pro_micro 18 GPIO_ACTIVE_HIGH>
-        , <&pro_micro 15 GPIO_ACTIVE_HIGH>
-        , <&pro_micro 14 GPIO_ACTIVE_HIGH>
-        , <&pro_micro 16 GPIO_ACTIVE_HIGH>
-        , <&pro_micro 10 GPIO_ACTIVE_HIGH>
-        ;
+    col-gpios = <
+        &pro_micro 19 GPIO_ACTIVE_HIGH,
+        &pro_micro 18 GPIO_ACTIVE_HIGH,
+        &pro_micro 15 GPIO_ACTIVE_HIGH,
+        &pro_micro 14 GPIO_ACTIVE_HIGH,
+        &pro_micro 16 GPIO_ACTIVE_HIGH,
+        &pro_micro 10 GPIO_ACTIVE_HIGH
+    >;
 };
 
+/* Left encoder */
 &left_encoder {
     status = "okay";
 };
 
- / {
-    chosen {
-        zmk,battery = &vbatt;
-        zmk,backlight = &backlight;
-    };
-
-    vbatt: vbatt {
-        compatible = "zmk,battery-nrf-vddh";
-    };
-};
-
-&pwm0 {
+/* PWM backlight node (left half drives the LEDs) */
+zmk_backlight: backlight {
+    compatible = "zmk,backlight-pwm";
+    label = "LED_BACKLIGHT";
+    pwms = <&pro_micro 3 5000>; /* Adjust pin & PWM freq if needed */
+    brightness-levels = <10>;
     status = "okay";
 };
 
-backlight: backlight {
-    compatible = "zmk,backlight-pwm";
-    pwms = <&pwm0 0 PWM_MSEC(20) PWM_POLARITY_INVERTED>;
+/* Chosen properties */
+chosen {
+    zmk,battery = &vbatt;
+};
+
+/* Battery node */
+vbatt: vbatt {
+    compatible = "zmk,battery-nrf-vddh";
 };
