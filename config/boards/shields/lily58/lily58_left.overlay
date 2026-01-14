@@ -1,42 +1,47 @@
 /*
- * Lily58 Pro Rev2 – LEFT
+ * Copyright (c) 2020 Pete Johanson
  * SPDX-License-Identifier: MIT
  */
 
 #include "lily58.dtsi"
 #include <zephyr/dt-bindings/pwm/pwm.h>
 
-/* Keyscan */
+/* --- Matrix columns (LEFT) --- */
 &kscan0 {
-    col-gpios = <
-        &pro_micro 19 GPIO_ACTIVE_HIGH
-        &pro_micro 18 GPIO_ACTIVE_HIGH
-        &pro_micro 15 GPIO_ACTIVE_HIGH
-        &pro_micro 14 GPIO_ACTIVE_HIGH
-        &pro_micro 16 GPIO_ACTIVE_HIGH
-        &pro_micro 10 GPIO_ACTIVE_HIGH
-    >;
+    col-gpios
+        = <&pro_micro 19 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 18 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 15 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 14 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 16 GPIO_ACTIVE_HIGH>
+        , <&pro_micro 10 GPIO_ACTIVE_HIGH>
+        ;
 };
 
-/* Left encoder */
+/* --- Encoder --- */
 &left_encoder {
     status = "okay";
 };
 
-/* Enable PWM */
+/* --- PWM backlight --- */
 &pwm0 {
     status = "okay";
 };
 
-/* Backlight */
 backlight: backlight {
     compatible = "zmk,backlight-pwm";
-    pwms = <&pwm0 0 PWM_MSEC(20) PWM_POLARITY_INVERTED>;
+    pwms = <&pwm0 0 PWM_MSEC(20)>;
     status = "okay";
 };
 
-/ {
+/* --- Battery + chosen nodes --- */
+ / {
     chosen {
+        zmk,battery = &vbatt;
         zmk,backlight = &backlight;
+    };
+
+    vbatt: vbatt {
+        compatible = "zmk,battery-nrf-vddh";
     };
 };
